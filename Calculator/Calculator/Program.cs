@@ -11,6 +11,7 @@ namespace Calculator
         static void Main(string[] args)
         {
             int opperand1 = 0;
+            int opperandX = 0;
             char opperation = default(char);
             while (true)
             {
@@ -25,7 +26,16 @@ namespace Calculator
                     curentOpperand = opperand1;
                 }
                 var curentOperation = isp[isp.Length - 1];
-                if (curentOperation == '=')
+                if (curentOperation == 'X')
+                {
+                    opperandX = opperand1;
+                }
+                else if (curentOperation == 'C')
+                {
+                    opperand1 = opperand1+opperandX;
+                    Console.Write($"={opperand1}");
+                }
+                else if (curentOperation == '=')
                 {
                     switch (opperation)
                     {
@@ -60,10 +70,16 @@ namespace Calculator
             while (true)
             {
                 var k = Console.ReadKey(true);
-                if(k.Key != ConsoleKey.Enter)
+                if (k.Key != ConsoleKey.Enter && k.Key != ConsoleKey.X && k.Key != ConsoleKey.C)
+                {
                     Console.Write(k.KeyChar);
+                }
+                if(k.Key == ConsoleKey.Escape)
+                {
+                    throw new OperationCanceledException();
+                }
                 result += k.KeyChar;
-                if (k.KeyChar == '=' || k.KeyChar == '+' || k.KeyChar == '-' || k.KeyChar == '/' || k.KeyChar == '*')
+                if (k.KeyChar == '=' || k.KeyChar == '+' || k.KeyChar == '-' || k.KeyChar == '/' || k.KeyChar == '*' || k.KeyChar == 'X' || k.KeyChar == 'C')
                 {
                     return result;
                 }
